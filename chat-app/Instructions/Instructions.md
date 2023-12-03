@@ -9,3 +9,8 @@ Navedena chat aplikacija bi trebala (Slika 1. i Slika 2. na drugoj strani):
 3.  za svakog sudionika u chatu selektirati neku slučajnu boju i/ili ime kojih ih identificiraju
 4.  povezati se sa Scaledrone servisom (dodatne upute o servisu u privitku) te uspješno simulirati razgovor svih aktivnih korisnika
 5.  biti dostupna preko javnog GitHub računa
+
+EXTRA:
+
+- tostify obavijest kada netko uđe u chat ili kada netko izadje iz chata
+- omoguciti emoji
