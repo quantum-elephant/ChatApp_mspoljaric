@@ -19,7 +19,7 @@ export default function App() {
 
   return (
     <div className='App'>
-      <ShowMessages />
+      <ShowMessages messages={messages} />
     </div>
   );
 }
