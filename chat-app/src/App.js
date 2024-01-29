@@ -10,11 +10,22 @@ export default function App() {
     'I am learning WebDev',
   ];
   const [messages, setMessages] = useState(messageArr);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   return (
     <>
+      {loading && (
+        <div>
+          <h2>Loading, please wait...</h2>
+        </div>
+      )}
+
+      {error && (
+        
+      )}
       {messages.map((message) => (
-        <li key={crypto.randomUUID}>{message}</li>
+        <li key={crypto.randomUUID()}>{message}</li>
       ))}
     </>
   );
