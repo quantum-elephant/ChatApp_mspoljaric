@@ -9,9 +9,17 @@ export default function App() {
     'I love potato',
     'I am learning WebDev',
   ];
-  const [messages, setMessages] = useState(messageArr);
+
+  // States
+  const [chat, setChat] = useState(messageArr);
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  // Functions
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setChat(chat.push(e.target.value));
+  };
 
   return (
     <>
@@ -22,11 +30,27 @@ export default function App() {
       )}
 
       {error && (
-        
+        <div>
+          <h2>There was an error {error.message}</h2>
+        </div>
       )}
-      {messages.map((message) => (
-        <li key={crypto.randomUUID()}>{message}</li>
-      ))}
+
+      {!error && !loading && (
+        <div className='chat'>
+          <div className='chat-messages'>
+            {chat.map((message) => (
+              <li key={crypto.randomUUID()}>{message}</li>
+            ))}
+          </div>
+
+          <div className='chat-input'>
+            <form className='form' method='post' onSubmit={handleSubmit}>
+              <input name='myInput' placeholder='Message'></input>
+              <button type='submit'>Send</button>
+            </form>
+          </div>
+        </div>
+      )}
     </>
   );
 }
