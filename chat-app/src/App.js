@@ -18,7 +18,7 @@ export default function App() {
   // Functions
   const handleSubmit = (e) => {
     e.preventDefault();
-    setChat(chat.push(e.target.value));
+    console.log(e.target.value);
   };
 
   return (
@@ -45,7 +45,11 @@ export default function App() {
 
           <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>
-              <input name='myInput' placeholder='Message'></input>
+              <input
+                name='myInput'
+                placeholder='Message'
+                defaultValue='Initial value'
+              ></input>
               <button type='submit'>Send</button>
             </form>
           </div>
