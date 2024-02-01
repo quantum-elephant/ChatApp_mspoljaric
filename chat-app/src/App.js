@@ -11,14 +11,32 @@ export default function App() {
   ];
 
   // States
-  const [chat, setChat] = useState(messageArr);
+  const [chat, setChat] = useState([]);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Functions
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
+    const newMessage = e.target.my_input.value;
+    if (newMessage !== null && newMessage !== '') {
+      setChat([...chat, newMessage]);
+    } else {
+    }
+    console.log(chat);
+    e.target.reset();
+  };
+
+  const handleKeyDown = (e) => {
+    console.log('key has been pressed', e.key);
+    console.log(chat, e.target.value);
+    e.preventDefault();
+    const newMessage = e.target.value;
+    if (newMessage !== null && newMessage !== '') {
+      setChat([...chat, newMessage]);
+    } else {
+    }
+    e.target.reset();
   };
 
   return (
@@ -46,9 +64,9 @@ export default function App() {
           <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>
               <input
-                name='myInput'
+                name='my_input'
                 placeholder='Message'
-                defaultValue='Initial value'
+                onKeyDown={handleKeyDown}
               ></input>
               <button type='submit'>Send</button>
             </form>
