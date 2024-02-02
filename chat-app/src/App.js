@@ -1,15 +1,8 @@
 import { useState } from 'react';
 import './Styles/App.scss';
+import ViewChat from './Components/ViewChat';
 
 export default function App() {
-  const messageArr = [
-    'Hello',
-    'Goodbye',
-    'I am a friend',
-    'I love potato',
-    'I am learning WebDev',
-  ];
-
   // States
   const [chat, setChat] = useState([]);
   const [error, setError] = useState(false);
@@ -27,17 +20,122 @@ export default function App() {
     e.target.reset();
   };
 
-  const handleKeyDown = (e) => {
-    console.log('key has been pressed', e.key);
-    console.log(chat, e.target.value);
-    e.preventDefault();
-    const newMessage = e.target.value;
-    if (newMessage !== null && newMessage !== '') {
-      setChat([...chat, newMessage]);
-    } else {
-    }
-    e.target.reset();
+  const randomName = () => {
+    const adjectives = [
+      'cerebral',
+      'indelible',
+      'euphonious',
+      'austere',
+      'sanguine',
+      'jubilant',
+      'imperturbable',
+      'convivial',
+      'erudite',
+      'stoic',
+      'pensive',
+      'astounding',
+      'incandescent',
+      'exquisite',
+      'somber',
+      'voracious',
+      'resilient',
+      'unfathomable',
+      'ephemeral',
+      'melancholic',
+      'serendipitous',
+      'melodic',
+      'kaleidoscopic',
+      'tempestuous',
+      'idyllic',
+      'inscrutable',
+      'confounding',
+      'poignant',
+      'luminous',
+      'languid',
+      'mellifluous',
+      'verdant',
+      'wistful',
+      'ethereal',
+      'scintillating',
+      'precocious',
+      'gregarious',
+      'diaphanous',
+      'serene',
+      'majestic',
+      'captivating',
+      'impeccable',
+      'exuberant',
+      'effervescent',
+      'labyrinthine',
+      'enthralling',
+      'enigmatic',
+      'audacious',
+    ];
+
+    const nouns = [
+      'cathedral',
+      'comet',
+      'compass',
+      'constellation',
+      'dandelion',
+      'eclipse',
+      'elegy',
+      'firefly',
+      'fractal',
+      'galaxy',
+      'gargoyle',
+      'geyser',
+      'hieroglyph',
+      'hurricane',
+      'kaleidoscope',
+      'magician',
+      'meteorite',
+      'monastery',
+      'mural',
+      'nocturne',
+      'nomad',
+      'oasis',
+      'paradox',
+      'pebble',
+      'phoenix',
+      'pilgrim',
+      'prism',
+      'quicksand',
+      'rainstorm',
+      'reflection',
+      'relic',
+      'rhapsody',
+      'sandstone',
+      'savannah',
+      'skyscraper',
+      'sonnet',
+      'spectacle',
+      'sphinx',
+      'staircase',
+      'symphony',
+      'tapestry',
+      'tornado',
+      'trailblazer',
+      'tremor',
+      'twilight',
+      'whimsy',
+      'willow',
+      'windmill',
+      'wolf',
+      'zenith',
+    ];
+
+    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+
+    return adjective + noun;
   };
+
+  const randomColor = () => {
+    return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+  };
+
+  /**TODO: Implement Enter for sending */
 
   return (
     <>
@@ -56,6 +154,7 @@ export default function App() {
       {!error && !loading && (
         <div className='chat'>
           <div className='chat-messages'>
+            <ViewChat />
             {chat.map((message) => (
               <li key={crypto.randomUUID()}>{message}</li>
             ))}
@@ -63,11 +162,7 @@ export default function App() {
 
           <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>
-              <input
-                name='my_input'
-                placeholder='Message'
-                onKeyDown={handleKeyDown}
-              ></input>
+              <input name='my_input' placeholder='Message'></input>
               <button type='submit'>Send</button>
             </form>
           </div>
