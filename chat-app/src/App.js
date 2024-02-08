@@ -5,6 +5,30 @@ import ViewChat from './Components/ViewChat';
 export default function App() {
   // States
   const [chat, setChat] = useState([]);
+
+  /*
+  Each message should be an object consisting of following information:
+  {
+      id: '1',
+      data: 'This is a test message!',
+      member: {
+        id: '1',
+        clientData: {
+          color: 'blue',
+          username: 'bluemoon',
+        },
+      },
+    },
+    
+    */
+
+  /*
+  const [me, setMe] = useState({
+    username: randomName(),
+    color: randomColor(),
+  });
+  */
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
