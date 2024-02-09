@@ -4,7 +4,19 @@ import ViewChat from './Components/ViewChat';
 
 export default function App() {
   // States
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState([
+    {
+      id: '1',
+      data: 'This is a test message!',
+      member: {
+        id: '1',
+        clientData: {
+          color: 'blue',
+          username: 'bluemoon',
+        },
+      },
+    },
+  ]);
 
   /*
   Each message should be an object consisting of following information:
@@ -177,12 +189,7 @@ export default function App() {
 
       {!error && !loading && (
         <div className='chat'>
-          <div className='chat-messages'>
-            <ViewChat />
-            {chat.map((message) => (
-              <li key={crypto.randomUUID()}>{message}</li>
-            ))}
-          </div>
+          <ViewChat chat={chat} />
 
           <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>

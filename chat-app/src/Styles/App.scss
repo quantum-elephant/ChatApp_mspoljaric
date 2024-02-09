@@ -1,0 +1,21 @@
+.chat-messages {
+  list-style: none;
+}
+
+.sender-color {
+  background-color: gray;
+  border-radius: 50%;
+  height: 2em;
+  width: 2em;
+}
+
+.message-data {
+  font-size: 20px;
+  background-color: gray;
+  border-radius: 5px;
+}
+
+.sender-name {
+  font-size: 14px;
+  font-style: italic;
+}
