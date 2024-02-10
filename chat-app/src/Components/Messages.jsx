@@ -1,9 +1,9 @@
-export default function ViewChat({ chat }) {
+export default function Messages({ messages }) {
   return (
     <>
       <ul className='chat-messages'>
-        {chat.map((message) => (
-          <li key={crypto.randomUUID()}>
+        {messages.map((message) => (
+          <li key={message.id}>
             <div className='sender-data'>
               <div
                 className='sender-color'
@@ -16,7 +16,7 @@ export default function ViewChat({ chat }) {
             <div className='message-data'>{message.data}</div>
           </li>
         ))}
-        {console.log(chat)}
+        {console.log(messages)}
       </ul>
     </>
   );

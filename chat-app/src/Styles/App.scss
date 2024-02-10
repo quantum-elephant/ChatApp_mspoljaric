@@ -12,7 +12,9 @@
 .message-data {
   font-size: 20px;
   background-color: gray;
-  border-radius: 5px;
+  border-radius: 0.6em;
+  padding: 0.4em;
+  width: fit-content;
 }
 
 .sender-name {

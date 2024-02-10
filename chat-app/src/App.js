@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import './Styles/App.scss';
-import ViewChat from './Components/ViewChat';
+import Messages from './Components/Messages';
 
 export default function App() {
   // States
-  const [chat, setChat] = useState([
+  const [messages, setMessages] = useState([
     {
-      id: '1',
       data: 'This is a test message!',
+      id: '1',
       member: {
-        id: '1',
+        clientId: '1',
         clientData: {
           color: 'blue',
           username: 'bluemoon',
@@ -17,22 +17,6 @@ export default function App() {
       },
     },
   ]);
-
-  /*
-  Each message should be an object consisting of following information:
-  {
-      id: '1',
-      data: 'This is a test message!',
-      member: {
-        id: '1',
-        clientData: {
-          color: 'blue',
-          username: 'bluemoon',
-        },
-      },
-    },
-    
-    */
 
   /*
   const [me, setMe] = useState({
@@ -45,18 +29,23 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   // Functions
+  const generateUniqueId = () => Math.random().toString(36).slice(2);
   const handleSubmit = (e) => {
     e.preventDefault();
     const newMessage = e.target.my_input.value;
     if (newMessage !== null && newMessage !== '') {
-      setChat([...chat, newMessage]);
+      const newMessageId = generateUniqueId();
+      const newMemberUsername = generateRandomName();
+      const newMemberColor = generateRandomColor();
+      // setMessages([...messages, newMessage]);
+      console.log(newMessage, newMessageId, newMemberUsername, newMemberColor);
     } else {
     }
-    console.log(chat);
     e.target.reset();
   };
 
-  const randomName = () => {
+  const createNewMessageObj = (text) => {};
+  const generateRandomName = () => {
     const adjectives = [
       'cerebral',
       'indelible',
@@ -167,7 +156,7 @@ export default function App() {
     return adjective + noun;
   };
 
-  const randomColor = () => {
+  const generateRandomColor = () => {
     return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
   };
 
@@ -189,7 +178,7 @@ export default function App() {
 
       {!error && !loading && (
         <div className='chat'>
-          <ViewChat chat={chat} />
+          <Messages messages={messages} />
 
           <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>
