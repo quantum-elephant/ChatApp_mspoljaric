@@ -17,14 +17,12 @@ export default function App() {
       },
     },
   ]);
-
   /*
   const [me, setMe] = useState({
-    username: randomName(),
-    color: randomColor(),
+    username: generateRandomName(),
+    color: generateRandomColor(),
   });
-  */
-
+*/
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -32,19 +30,30 @@ export default function App() {
   const generateUniqueId = () => Math.random().toString(36).slice(2);
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newMessage = e.target.my_input.value;
-    if (newMessage !== null && newMessage !== '') {
+    const newInput = e.target.my_input.value;
+    if (newInput !== null && newInput !== '') {
       const newMessageId = generateUniqueId();
       const newMemberUsername = generateRandomName();
       const newMemberColor = generateRandomColor();
+      const newMemberId = generateUniqueId().slice(4);
+      const newMessage = {
+        data: newInput,
+        id: newMessageId,
+        member: {
+          clientId: newMemberId,
+          clientData: {
+            color: newMemberColor,
+            username: newMemberUsername,
+          },
+        },
+      };
       // setMessages([...messages, newMessage]);
-      console.log(newMessage, newMessageId, newMemberUsername, newMemberColor);
+      console.log(newMessage);
     } else {
     }
     e.target.reset();
   };
 
-  const createNewMessageObj = (text) => {};
   const generateRandomName = () => {
     const adjectives = [
       'cerebral',
