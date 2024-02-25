@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import './Styles/App.scss';
 import Messages from './Components/Messages';
+import {
+  generateRandomColor,
+  generateRandomName,
+  generateUniqueId,
+} from './Helpers/Utils';
 
 export default function App() {
   // States
@@ -17,156 +22,43 @@ export default function App() {
       },
     },
   ]);
-  /*
-  const [me, setMe] = useState({
-    username: generateRandomName(),
-    color: generateRandomColor(),
+
+  const [currentUser, setCurrentUser] = useState({
+    clientId: generateUniqueId(),
+    clientData: {
+      color: generateRandomColor(),
+      username: generateRandomName(),
+    },
   });
-*/
+
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Functions
-  const generateUniqueId = () => Math.random().toString(36).slice(2);
   const handleSubmit = (e) => {
     e.preventDefault();
     const newInput = e.target.my_input.value;
     if (newInput !== null && newInput !== '') {
       const newMessageId = generateUniqueId();
-      const newMemberUsername = generateRandomName();
-      const newMemberColor = generateRandomColor();
-      const newMemberId = generateUniqueId().slice(4);
+      // const newMemberUsername = generateRandomName();
+      // const newMemberColor = generateRandomColor();
+      // const newMemberId = generateUniqueId().slice(4);
       const newMessage = {
         data: newInput,
         id: newMessageId,
         member: {
-          clientId: newMemberId,
+          clientId: currentUser.clientId,
           clientData: {
-            color: newMemberColor,
-            username: newMemberUsername,
+            color: currentUser.clientData.color,
+            username: currentUser.clientData.username,
           },
         },
       };
-      // setMessages([...messages, newMessage]);
+      setMessages([...messages, newMessage]);
       console.log(newMessage);
     } else {
     }
     e.target.reset();
-  };
-
-  const generateRandomName = () => {
-    const adjectives = [
-      'cerebral',
-      'indelible',
-      'euphonious',
-      'austere',
-      'sanguine',
-      'jubilant',
-      'imperturbable',
-      'convivial',
-      'erudite',
-      'stoic',
-      'pensive',
-      'astounding',
-      'incandescent',
-      'exquisite',
-      'somber',
-      'voracious',
-      'resilient',
-      'unfathomable',
-      'ephemeral',
-      'melancholic',
-      'serendipitous',
-      'melodic',
-      'kaleidoscopic',
-      'tempestuous',
-      'idyllic',
-      'inscrutable',
-      'confounding',
-      'poignant',
-      'luminous',
-      'languid',
-      'mellifluous',
-      'verdant',
-      'wistful',
-      'ethereal',
-      'scintillating',
-      'precocious',
-      'gregarious',
-      'diaphanous',
-      'serene',
-      'majestic',
-      'captivating',
-      'impeccable',
-      'exuberant',
-      'effervescent',
-      'labyrinthine',
-      'enthralling',
-      'enigmatic',
-      'audacious',
-    ];
-
-    const nouns = [
-      'cathedral',
-      'comet',
-      'compass',
-      'constellation',
-      'dandelion',
-      'eclipse',
-      'elegy',
-      'firefly',
-      'fractal',
-      'galaxy',
-      'gargoyle',
-      'geyser',
-      'hieroglyph',
-      'hurricane',
-      'kaleidoscope',
-      'magician',
-      'meteorite',
-      'monastery',
-      'mural',
-      'nocturne',
-      'nomad',
-      'oasis',
-      'paradox',
-      'pebble',
-      'phoenix',
-      'pilgrim',
-      'prism',
-      'quicksand',
-      'rainstorm',
-      'reflection',
-      'relic',
-      'rhapsody',
-      'sandstone',
-      'savannah',
-      'skyscraper',
-      'sonnet',
-      'spectacle',
-      'sphinx',
-      'staircase',
-      'symphony',
-      'tapestry',
-      'tornado',
-      'trailblazer',
-      'tremor',
-      'twilight',
-      'whimsy',
-      'willow',
-      'windmill',
-      'wolf',
-      'zenith',
-    ];
-
-    const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const noun = nouns[Math.floor(Math.random() * nouns.length)];
-
-    return adjective + noun;
-  };
-
-  const generateRandomColor = () => {
-    return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
   };
 
   /**TODO: Implement Enter for sending */
@@ -187,7 +79,7 @@ export default function App() {
 
       {!error && !loading && (
         <div className='chat'>
-          <Messages messages={messages} />
+          <Messages messages={messages} user={currentUser} />
 
           <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>

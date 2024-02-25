@@ -1,9 +1,16 @@
-export default function Messages({ messages }) {
+export default function Messages({ messages, user }) {
   return (
     <>
       <ul className='chat-messages'>
         {messages.map((message) => (
-          <li key={message.id}>
+          <li
+            key={message.id}
+            className={
+              message.member.clientId === user.clientId
+                ? 'currentUser'
+                : 'guest'
+            }
+          >
             <div className='sender-data'>
               <div
                 className='sender-color'
@@ -16,10 +23,8 @@ export default function Messages({ messages }) {
             <div className='message-data'>{message.data}</div>
           </li>
         ))}
-        {console.log(messages)}
+        {console.log(messages, user)}
       </ul>
     </>
   );
 }
-
-function Message({ member, data, id }, me) {}
