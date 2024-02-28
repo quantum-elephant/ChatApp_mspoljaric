@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import './Styles/App.scss';
 import Messages from './Components/Messages';
 import {
@@ -6,8 +6,17 @@ import {
   generateRandomName,
   generateUniqueId,
 } from './Helpers/Utils';
+import Input from './Components/Input';
 
 export default function App() {
+  // Scaledrone
+  <script
+    type='text/javascript'
+    src='https://cdn.scaledrone.com/scaledrone.min.js'
+  />;
+
+  let drone = null;
+
   // States
   const [messages, setMessages] = useState([
     {
@@ -23,6 +32,9 @@ export default function App() {
     },
   ]);
 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [currentUser, setCurrentUser] = useState({
     clientId: generateUniqueId(),
     clientData: {
@@ -31,35 +43,28 @@ export default function App() {
     },
   });
 
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  //Enabling Scaledrone access to current state
+  //radimo to pomocu useRef hooka kojim omogucujemo pristup nekoj referenci (u ovom slucaju nasim state parametrima) kako bi se updejtali tijekom svakog rendera
+  const messagesRef = useRef(messages);
+  // messagesRef.current = messages; mozemo inicijalnu vrijednost messagesRef zapisati ovako ili dodati u zagradu useRef(initialValue) hooka umjesto initialValue - kada napravimo console.log dobivamo istu vrijednost
+  // console.log(messagesRef.current);
+  const currentUserRef = useRef(currentUser);
 
-  // Functions
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const newInput = e.target.my_input.value;
-    if (newInput !== null && newInput !== '') {
-      const newMessageId = generateUniqueId();
-      // const newMemberUsername = generateRandomName();
-      // const newMemberColor = generateRandomColor();
-      // const newMemberId = generateUniqueId().slice(4);
-      const newMessage = {
-        data: newInput,
-        id: newMessageId,
-        member: {
-          clientId: currentUser.clientId,
-          clientData: {
-            color: currentUser.clientData.color,
-            username: currentUser.clientData.username,
-          },
-        },
-      };
-      setMessages([...messages, newMessage]);
-      console.log(newMessage);
-    } else {
-    }
-    e.target.reset();
-  };
+  // Create new instance of Scaledrone
+  function connectToScaledrone() {
+    drone = new window.Scaledrone('XRYpwOO0JVDNfZUW', {
+      data: currentUserRef.current,
+    });
+    drone.on('open', (error) => {
+      if (error) {
+        return console.error(error);
+      }
+      currentUserRef.current.id = drone.clientId;
+      setCurrentUser(currentUserRef.current);
+    });
+  }
+
+  // TODO: connect to a room
 
   /**TODO: Implement Enter for sending */
 
@@ -80,13 +85,19 @@ export default function App() {
       {!error && !loading && (
         <div className='chat'>
           <Messages messages={messages} user={currentUser} />
+          <Input
+            messages={messages}
+            user={currentUser}
+            setMessages={setMessages}
+            generateUniqueId={generateUniqueId}
+          />
 
-          <div className='chat-input'>
+          {/* <div className='chat-input'>
             <form className='form' method='post' onSubmit={handleSubmit}>
               <input name='my_input' placeholder='Message'></input>
               <button type='submit'>Send</button>
             </form>
-          </div>
+          </div> */}
         </div>
       )}
     </>

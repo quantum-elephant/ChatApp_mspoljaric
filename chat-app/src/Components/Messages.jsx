@@ -23,7 +23,7 @@ export default function Messages({ messages, user }) {
             <div className='message-data'>{message.data}</div>
           </li>
         ))}
-        {console.log(messages, user)}
+        {/* {console.log(messages, user)} */}
       </ul>
     </>
   );
