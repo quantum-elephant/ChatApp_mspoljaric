@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Styles/App.scss';
 import Messages from './Components/Messages';
 import {
@@ -17,6 +17,14 @@ export default function App() {
 
   let drone = null;
 
+  // useEffect for loading Scaledrone
+  useEffect(() => {
+    if (drone === null) {
+      connectToScaledrone();
+    }
+  }, []);
+
+  console.log(drone);
   // States
   const [messages, setMessages] = useState([
     {
@@ -53,16 +61,23 @@ export default function App() {
   // Create new instance of Scaledrone
   function connectToScaledrone() {
     drone = new window.Scaledrone('XRYpwOO0JVDNfZUW', {
-      data: currentUserRef.current,
+      data: currentUserRef,
     });
     drone.on('open', (error) => {
       if (error) {
         return console.error(error);
       }
-      currentUserRef.current.id = drone.clientId;
-      setCurrentUser(currentUserRef.current);
+      currentUserRef.id = drone.clientId;
+      setCurrentUser(currentUserRef);
     });
   }
+
+  const room = drone.subscribe('observable-room');
+
+  room.on('message', (message) => {
+    const { data, member } = message;
+    setMessages([...messagesRef, message]);
+  });
 
   // TODO: connect to a room
 
